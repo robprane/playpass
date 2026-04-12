@@ -53,7 +53,11 @@ export default class AuthClient {
                 const data = await res.json();
                 this.handshakeToken = data.token;
                 this.sessionId = data.sessionId;
-                this.sseUrl = data.sseUrl;
+                try {
+                    this.sseUrl = new URL(data.sseUrl, this.apiUrl).href;
+                } catch(e) {
+                    this.sseUrl = data.sseUrl;
+                }
 
                 this.#connectSSE();
                 this.#log(`System: Handshake OK (SID: ${this.sessionId})`);
