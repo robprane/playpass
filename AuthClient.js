@@ -47,7 +47,10 @@ export default class AuthClient {
 
         if (!this.handshakeToken) {
             try {
-                const res = await this.#fetchWithTimeout(`${this.apiUrl}/auth/handshake`, { method: 'POST' });
+                const res = await this.#fetchWithTimeout(`${this.apiUrl}/auth/handshake`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
                 if (!res.ok) throw new Error('Handshake failed');
 
                 const data = await res.json();
@@ -200,6 +203,7 @@ export default class AuthClient {
         const res = await this.#fetchWithTimeout(this.apiUrl + path, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify(body)
         });
         if (!res.ok) throw await this.#handleError(res);
