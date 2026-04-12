@@ -45,7 +45,7 @@ export default class SSEClient {
             const url = new URL(this.sseUrl);
             url.searchParams.append('topic', this.topic);
 
-            this.eventSource = new EventSource(url, { withCredentials: true });
+            this.eventSource = new EventSource(url);
 
             this.eventSource.onopen = () => {
                 this.log(`SSE: Connected to ${this.topic}`, 'success');
